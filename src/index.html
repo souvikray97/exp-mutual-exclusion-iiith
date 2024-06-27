@@ -8,228 +8,205 @@
   </head>
   <body>
     <main class="h-screen flex flex-col items-center">
-      <p class="text-red-700 sm:hidden">Turn your device to landscape</p>
+      <p class="text-red-700 font-extrabold sm:hidden">Turn your device to landscape</p>
       <!--simulation and content-->
       <div
         class="w-full max-w-screen-sm grid grid-cols-3 grid-rows-1 gap-2 p-2"
       >
         <!--simulation-->
         <section class="w-full bg-gray-300 col-span-2 row-span-1 rounded-lg">
-          <h1 class="bg-white px-5 py-2.5 rounded-lg m-2">Simulation</h1>
-          <section class="bg-white px-5 py-2.5 rounded-lg m-2 h-[200px]"></section>
+          <h1 class="bg-white px-5 py-2.5 rounded-lg m-1">Simulation</h1>
+          <section
+            class="bg-white px-5 py-2.5 rounded-lg m-1 h-[200px]"
+          ></section>
         </section>
         <!--content-->
         <section class="w-full bg-gray-300 col-span-1 row-span-1 rounded-lg">
-          <h1 class="bg-white px-5 py-2.5 rounded-lg m-2">Content</h1>
+          <h1 class="bg-white px-5 py-2.5 rounded-lg m-1">Content</h1>
 
           <!--Dropdown button-->
           <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="dropdown"
-          class=" w-11/12 mx-[6px]  bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-1"
-          type="button"
-        >
-          Introduction
-          <svg
-            class="w-2.5 h-2.5 ms-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
+            id="introductionButton"
+            data-dropdown-toggle="introductionDropdown"
+            class="w-11/12 mx-[6px] bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-1"
+            type="button"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-        </button>
+            Introduction
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
 
-        <!--Dropdown menu-->
-        <div
-          id="dropdown"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 "
-            aria-labelledby="dropdownDefaultButton"
+          <!--Dropdown menu-->
+          <div
+            id="introductionDropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Dashboard</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Settings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Earnings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Sign out</a
-              >
-            </li>
-          </ul>
-        </div>
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Earnings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
 
-        <!--Dropdown button-->
+          <!--Dropdown button-->
 
-        <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="dropdown"
-          class="w-11/12 mx-[6px]  bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-1"
-          type="button"
-        >
-          Instructions
-          <svg
-            class="w-2.5 h-2.5 ms-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
+          <button
+            id="instructionsButton"
+            data-dropdown-toggle="instructionsDropdown"
+            class="w-11/12 mx-[6px] bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-1"
+            type="button"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-        </button>
+            Instructions
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
 
-        <!--Dropdown menu-->
-        <div
-          id="dropdown"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 "
-            aria-labelledby="dropdownDefaultButton"
+          <!--Dropdown menu-->
+          <div
+            id="instructionsDropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Dashboard</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Settings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Earnings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Sign out</a
-              >
-            </li>
-          </ul>
-        </div>
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Earnings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
 
-        <!--Dropdown button-->
+          <!--Dropdown button-->
 
-        <button
-          id="dropdownDefaultButton"
-          data-dropdown-toggle="dropdown"
-          class="w-11/12 mx-[6px]  bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-2"
-          type="button"
-        >
-          Theory
-          <svg
-            class="w-2.5 h-2.5 ms-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 6"
+          <button
+            id="TheoryButton"
+            data-dropdown-toggle="TheoryDropdown"
+            class="w-11/12 mx-[6px] bg-white hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-3 mb-2"
+            type="button"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m1 1 4 4 4-4"
-            />
-          </svg>
-        </button>
+            Theory
+            <svg
+              class="w-2.5 h-2.5 ms-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
 
-        <!--Dropdown menu-->
-        <div
-          id="dropdown"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
-        >
-          <ul
-            class="py-2 text-sm text-gray-700 "
-            aria-labelledby="dropdownDefaultButton"
+          <!--Dropdown menu-->
+          <div
+            id="TheoryDropdown"
+            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
           >
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Dashboard</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Settings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Earnings</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Sign out</a
-              >
-            </li>
-          </ul>
-        </div>
-
+            <ul
+              class="py-2 text-sm text-gray-700"
+              aria-labelledby="dropdownDefaultButton"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Settings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Earnings</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Sign out</a
+                >
+              </li>
+            </ul>
+          </div>
         </section>
       </div>
 
       <!--buttons-->
-      
-      <section class="grid grid-cols-3 grid-rows-2 m-2">
+
+      <section class="grid grid-cols-3 grid-rows-2 m-1">
         <!--Dropdown button-->
         <button
           id="dropdownDefaultButton"
           data-dropdown-toggle="dropdown"
-          class="w-[97%] text-white bg-blue-600 hover:bg-blue-8 00 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-2 mb-1"
+          class=" text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center col-span-2 m-1"
           type="button"
         >
           SELECT THE PROBLEM
@@ -253,91 +230,76 @@
         <!--Dropdown menu-->
         <div
           id="dropdown"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 "
+          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
         >
           <ul
-            class="py-2 text-sm text-gray-700 "
+            class="py-2 text-sm text-gray-700"
             aria-labelledby="dropdownDefaultButton"
           >
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100"
                 >Dashboard</a
               >
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Settings</a
-              >
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Earnings</a
-              >
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
             </li>
             <li>
-              <a
-                href="#"
-                class="block px-4 py-2 hover:bg-gray-100 "
-                >Sign out</a
-              >
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign out</a>
             </li>
           </ul>
         </div>
 
-        <!--Dropdown checkbox-->
-        <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" class="w-[94%] mb-1 text-white bg-blue-600 hover:bg-blue-8 00 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center   " type="button">BUFFER SIZE<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-          </svg>
-          </button>
-          
-          <!-- Dropdown menu -->
-          <div id="dropdownDefaultCheckbox" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-              <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                <li>
-                  <div class="flex items-center">
-                    <input id="checkbox-item-1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    focus:ring-2 ">
-                    <label for="checkbox-item-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
-                  </div>
-                </li>
-                <li>
-                  <div class="flex items-center">
-                      <input checked id="checkbox-item-2" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    focus:ring-2 ">
-                      <label for="checkbox-item-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
-                    </div>
-                </li>
-                <li>
-                  <div class="flex items-center">
-                    <input id="checkbox-item-3" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500    focus:ring-2 ">
-                    <label for="checkbox-item-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
-                  </div>
-                </li>
-              </ul>
+      <!--Radio Dropdown button-->
+<button id="dropdownRadioButton" data-dropdown-toggle="dropdownDefaultRadio" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center m-1" type="button">BUFFER SIZE<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+  </svg>
+  </button>
+  
+  <!--Dropdown menu-->
+  <div id="dropdownDefaultRadio" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+      <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
+        <li>
+          <div class="flex items-center">
+              <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 ">
+              <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default radio</label>
           </div>
-
-        <button
-          type="button"
-          class=" text-white bg-blue-600 hover:bg-blue-8  00 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
-        >
-          START
-        </button>
-
+        </li>
+        <li>
+          <div class="flex items-center">
+              <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 ">
+              <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
+          </div>
+        </li>
+        <li>
+          <div class="flex items-center">
+              <input id="default-radio-3" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 ">
+              <label for="default-radio-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default radio</label>
+          </div>
+        </li>
+      </ul>
+  </div>
   
 
         <button
           type="button"
-          class="text-white bg-blue-600 hover:bg-blue-8 00 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+          class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1 "
+        >
+          START
+        </button>
+
+        <button
+          type="button"
+          class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1 "
         >
           PUT
         </button>
         <button
           type="button"
-          class="text-white bg-blue-600 hover:bg-blue-8 00 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+          class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1 "
         >
           GET
         </button>
@@ -345,11 +307,13 @@
 
       <!--dialog box-->
       <section
-        class="flex text-left items-center justify-start h-10 min-w-[80%] font-sans text-lg p-5 border-2 border-green-600 rounded-lg mx-auto"
+        class="flex text-left items-center justify-start h-10 min-w-[80%] font-sans text-lg p-5 border-2 border-green-600 rounded-lg m-1"
       >
         Observations:
       </section>
     </main>
     <script src="app.js"></script>
+    <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+    
   </body>
 </html>
