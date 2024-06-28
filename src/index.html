@@ -22,7 +22,7 @@
           </h1>
           <div class="px-2 sm:px-5 py-1 font-semibold">
             <span class="mx-0.5 sm:mr-[27px] sm:ml-1">Process</span>
-            <span class="mx-0.5 sm:mx-[27px]">Plock</span>
+            <span class="mx-0.5 sm:mx-[27px]">Clock</span>
             <span class="mx-0.5 sm:mx-[27px]">Value</span>
             <span class="mx-0.5 sm:ml-[27px] sm:mr-1">State</span>
           </div>
@@ -271,8 +271,8 @@
 
         <!--Radio Dropdown button-->
         <button
-          id="dropdownRadioButton"
-          data-dropdown-toggle="dropdownDefaultRadio"
+          id="bufferRadioButton"
+          data-dropdown-toggle="bufferRadioDropdown"
           class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center m-1"
           type="button"
         >
@@ -295,24 +295,24 @@
 
         <!--Dropdown menu-->
         <div
-          id="dropdownDefaultRadio"
+          id="bufferRadioDropdown"
           class="z-10 hidden w-48 bg-gray-200 divide-y divide-gray-100 rounded-lg shadow "
         >
           <ul
             class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownRadioButton"
+            aria-labelledby="bufferRadioButton"
           >
             <li>
               <div class="flex items-center">
                 <input
-                  id="default-radio-1"
+                  id="radio-1"
                   type="radio"
                   value=""
-                  name="default-radio"
+                  name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
-                  for="default-radio-1"
+                  for="radio-1"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >radio1</label
                 >
@@ -322,14 +322,14 @@
               <div class="flex items-center">
                 <input
                   checked
-                  id="default-radio-2"
+                  id="radio-2"
                   type="radio"
                   value=""
-                  name="default-radio"
+                  name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
-                  for="default-radio-2"
+                  for="radio-2"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >radio2</label
                 >
@@ -338,14 +338,14 @@
             <li>
               <div class="flex items-center">
                 <input
-                  id="default-radio-3"
+                  id="radio-3"
                   type="radio"
                   value=""
-                  name="default-radio"
+                  name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
-                  for="default-radio-3"
+                  for="radio-3"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >radio3</label
                 >
@@ -354,14 +354,14 @@
             <li>
               <div class="flex items-center">
                 <input
-                  id="default-radio-4"
+                  id="radio-4"
                   type="radio"
                   value=""
-                  name="default-radio"
+                  name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
-                  for="default-radio-4"
+                  for="radio-4"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >radio4</label
                 >
@@ -370,20 +370,20 @@
           </ul>
         </div>
 
-        <button
+        <button id="start"
           type="button"
           class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1"
         >
           START
         </button>
 
-        <button
+        <button id="reset"
           type="button"
           class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1"
         >
           RESET
         </button>
-        <button
+        <button id=""
           type="button"
           class=" text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 m-1"
         >
