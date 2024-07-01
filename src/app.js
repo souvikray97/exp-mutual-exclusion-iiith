@@ -31,7 +31,7 @@ document.getElementById("start").addEventListener("click", function () {
 
   // Generate and append the div element with initial values using the Process instance
   const div = document.createElement("div");
-  div.classList.add("flex", "border-b", "py-2");
+  div.classList.add("flex", "border-b", "py-2", "text-center");
   div.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processInstance.process}</div>
                    <div class="basis-1/4 px-2">${processInstance.clock}</div>
                    <div class="basis-1/4 px-2">${processInstance.value}</div>
