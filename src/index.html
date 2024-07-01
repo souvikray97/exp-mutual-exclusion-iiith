@@ -20,15 +20,15 @@
           <h1 class="bg-white px-5 py-2.5 rounded-lg m-1 text-center font-bold text-green-600">
             SIMULATION
           </h1>
-          <div class="px-2 sm:px-5 py-1 font-semibold">
-            <span class="mx-0.5 sm:mr-[27px] sm:ml-1">Process</span>
-            <span class="mx-0.5 sm:mx-[27px]">Clock</span>
-            <span class="mx-0.5 sm:mx-[27px]">Value</span>
-            <span class="mx-0.5 sm:ml-[27px] sm:mr-1">State</span>
+          <div class="flex px-2 sm:px-5 py-1 font-semibold">
+            <span class="basis-1/4 pl-3 pr-5">Process</span>
+            <span class="basis-1/4 px-7">Clock</span>
+            <span class="basis-1/4 px-7">Value</span>
+            <span class="basis-1/4 pr-3 pl-5">State</span>
           </div>
           <section
             id="innerSimulation"
-            class="bg-white px-2.5 sm:px-5 py-2.5 rounded-lg m-1 h-[200px]"
+            class="bg-white px-2.5 sm:px-4 py-2.5 rounded-lg m-1 h-[200px]"
           >
             <ol id="iteration" class=""></ol>
           </section>
@@ -305,33 +305,34 @@
             <li>
               <div class="flex items-center">
                 <input
+                checked
                   id="radio-1"
                   type="radio"
-                  value=""
+                  value="0"
                   name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
                   for="radio-1"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >radio1</label
+                  >0</label
                 >
               </div>
             </li>
             <li>
               <div class="flex items-center">
                 <input
-                  checked
+    
                   id="radio-2"
                   type="radio"
-                  value=""
+                  value="1"
                   name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
                   for="radio-2"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >radio2</label
+                  >1</label
                 >
               </div>
             </li>
@@ -340,14 +341,14 @@
                 <input
                   id="radio-3"
                   type="radio"
-                  value=""
+                  value="2"
                   name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
                   for="radio-3"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >radio3</label
+                  >2</label
                 >
               </div>
             </li>
@@ -356,14 +357,14 @@
                 <input
                   id="radio-4"
                   type="radio"
-                  value=""
+                  value="3"
                   name="radio"
                   class="w-4 h-4 text-green-500 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 />
                 <label
                   for="radio-4"
                   class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >radio4</label
+                  >3</label
                 >
               </div>
             </li>
@@ -406,7 +407,8 @@
         Observations:
       </section>
     </main>
-    <script src="app.js"></script>
+    
     <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
   </body>
+  <script src="app.js"></script>
 </html>
