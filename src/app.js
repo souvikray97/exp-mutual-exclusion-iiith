@@ -1,7 +1,7 @@
 // Define the Process class with the required constructor
 class Process {
-  constructor(process = {}, clock = 3, value = undefined, state = "ready") {
-    this.process = process;
+  constructor(bufferSize = undefined, clock = 3, value = undefined, state = "ready") {
+    this.process = new Array(bufferSize).fill(undefined);
     this.clock = clock;
     this.value = value;
     this.state = state;
@@ -27,7 +27,7 @@ document.getElementById("start").addEventListener("click", function () {
   ol.innerHTML = "";
 
   // Create an instance of the Process class
-  const processInstance = new Process("{}");
+  const processInstance = new Process();
 
   // Generate and append the div element with initial values using the Process instance
   const div = document.createElement("div");
