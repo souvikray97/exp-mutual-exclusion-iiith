@@ -167,3 +167,19 @@ get.addEventListener("keyup", function (event) {
     }
   }
 });
+
+// Reset button event listener
+const resetButton = document.getElementById("reset");
+
+resetButton.addEventListener("click", function () {
+  // Reset radio button to default (radio-1)
+  const defaultRadio = document.getElementById("radio-1");
+  defaultRadio.checked = true;
+
+  // Clear the content of ol with id "iteration"
+  const ol = document.getElementById("iteration");
+  ol.innerHTML = "";
+
+  // Reset processInstance to null or initial state as needed
+  processInstance = null;
+});
