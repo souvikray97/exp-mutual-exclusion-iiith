@@ -15,6 +15,7 @@ class Process {
 
  // Create an instance of the Process class
 let processInstance;
+
  
 document.getElementById("start").addEventListener("click", function () {
   // Select the first radio button (buffer size 0) by default
@@ -41,7 +42,10 @@ document.getElementById("start").addEventListener("click", function () {
                    <div class="basis-1/4 px-2">${processInstance.clock}</div>
                    <div class="basis-1/4 px-2">${processInstance.value}</div>
                    <div class="basis-1/4 pr-3 pl-5 text-green-600">${processInstance.state}</div>`;
-  ol.appendChild(div);
+    ol.appendChild(div);
+    // Scroll to the bottom of #innerSimulation
+    const innerSimulation = document.getElementById("innerSimulation");
+    innerSimulation.scrollTop = innerSimulation.scrollHeight;
 
   
 });
@@ -71,6 +75,9 @@ put.addEventListener("keyup", function (event) {
               // Append each new div with a delay of 1 second
                                             setTimeout(() => {
                                                 ol.appendChild(newDiv);
+                                                // Scroll to the bottom of #innerSimulation
+          const innerSimulation = document.getElementById("innerSimulation");
+          innerSimulation.scrollTop = innerSimulation.scrollHeight;
                                               }, i*1000);
                       }
                 
@@ -95,6 +102,9 @@ put.addEventListener("keyup", function (event) {
                 // Add a 1-second delay before appending the main div with updated values
                 setTimeout(() => {
                     ol.appendChild(div);
+                    // Scroll to the bottom of #innerSimulation
+          const innerSimulation = document.getElementById("innerSimulation");
+          innerSimulation.scrollTop = innerSimulation.scrollHeight;
                   },4000);
 
                 // Clear input field after processing
@@ -104,4 +114,5 @@ put.addEventListener("keyup", function (event) {
                 console.log("Buffer is full. Cannot add more values.");
         }
     }
-  });
+});
+  
