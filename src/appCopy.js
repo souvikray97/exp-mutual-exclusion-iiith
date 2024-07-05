@@ -45,6 +45,7 @@ document.getElementById("start").addEventListener("click", async function () {
   console.log("Buffer size selected:", bufferSize);
 
   if (bufferSize == 0) {
+    alert("Select Buffer Size before Starting.")
     return;
   }
   processInstance = new Process(bufferSize);
@@ -383,6 +384,7 @@ resetButton.addEventListener("click", function () {
   // Clear the content of ol with id "iteration"
   const ol = document.getElementById("iteration");
   ol.innerHTML = "";
+  
 
   // Reset processInstance to null or initial state as needed
   processInstance = null;
