@@ -276,8 +276,8 @@ get.addEventListener("keyup", async function (event) {
                         <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                         <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>`;
     ol.appendChild(newDiv);
-// Clear input field after processing
-get.value = "";
+    // Clear input field after processing
+    get.value = "";
     // Scroll to the bottom of #innerSimulation
     setTimeout(() => {
       innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -372,6 +372,9 @@ get.value = "";
     }, 100);
   }
 });
+
+// Reset button event listener
+const resetButton = document.getElementById("reset");
 resetButton.addEventListener("click", function () {
   // Reset radio button to default (radio-1)
   const defaultRadio = document.getElementById("radio-1");
