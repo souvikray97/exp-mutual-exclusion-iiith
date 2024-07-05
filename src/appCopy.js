@@ -1,6 +1,6 @@
 // Define the Process class with the required constructor
 class Process {
-  constructor(bufferSize, clock = 4, value = "", state = "ready") {
+  constructor(bufferSize, clock = 5, value = "", state = "ready") {
     this.process = new Array(bufferSize).fill("");
     this.clock = clock;
     this.value = value;
@@ -29,17 +29,18 @@ class Process {
 
 // Function to delay execution with a specified timeout
 function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // Create an instance of the Process class
 let processInstance;
+let innerSimulation = document.getElementById("innerSimulation");
 
 document.getElementById("start").addEventListener("click", async function () {
   // Select the first radio button (buffer size 0) by default
   const bufferSize = parseInt(
     document.querySelector('input[name="radio"]:checked').value,
-    10,
+    10
   );
   console.log("Buffer size selected:", bufferSize);
 
@@ -49,9 +50,6 @@ document.getElementById("start").addEventListener("click", async function () {
   processInstance = new Process(bufferSize);
 
   const ol = document.getElementById("iteration");
-
-  // Clear existing items in the list
-  ol.innerHTML = "";
 
   // Generate and append the div element with initial values using the Process instance
   const div = document.createElement("div");
@@ -64,10 +62,11 @@ document.getElementById("start").addEventListener("click", async function () {
   ol.appendChild(div);
 
   // Scroll to the bottom of #innerSimulation
-  const innerSimulation = document.getElementById("innerSimulation");
-  innerSimulation.scrollTop = innerSimulation.scrollHeight;
+  setTimeout(() => {
+    innerSimulation.scrollTop = innerSimulation.scrollHeight;
+  }, 100);
 
-  await delay(1000); // Wait 3 seconds before proceeding
+  await delay(1000); // Wait 1 second before proceeding
 });
 
 const put = document.getElementById("put");
@@ -76,18 +75,58 @@ put.addEventListener("keyup", async function (event) {
   if (event.key === "Enter") {
     const inputValue = put.value.trim(); // Trim input value
     if (inputValue !== "") {
-      // Wait(empty)
       const ol = document.getElementById("iteration");
+
+      // Check if empty is 0
+      if (processInstance.empty === 0) {
+        // Display wait(empty) state
+        let newDiv = document.createElement("div");
+        newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+        newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                            <div class="col-span-1 sm:px-3.5">${processInstance.clock - 1}</div>
+                            <div class="col-span-1 sm:px-3.5">${inputValue}</div>
+                            <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
+                            <div class="col-span-1 sm:px-3.5 text-red-600">wait(empty)</div>`;
+        ol.appendChild(newDiv);
+        
+        // Scroll to the bottom of #innerSimulation
+        setTimeout(() => {
+          innerSimulation.scrollTop = innerSimulation.scrollHeight;
+        }, 100);
+        
+        // Display initial state
+        newDiv = document.createElement("div");
+        newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+        newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                            <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
+                            <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
+                            <div class="col-span-1 sm:px-3.5 text-green-600">${processInstance.state}</div>
+                            <div class="col-span-1 sm:px-3.5 text-green-600">initial state</div>`;
+        ol.appendChild(newDiv);
+
+        // Scroll to the bottom of #innerSimulation
+        setTimeout(() => {
+          innerSimulation.scrollTop = innerSimulation.scrollHeight;
+        }, 100);
+        
+        return;
+      }
+
+      // Wait(empty)
       let newDiv = document.createElement("div");
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                          <div class="col-span-1 sm:px-3.5">${processInstance.clock-1}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock - 1}</div>
                           <div class="col-span-1 sm:px-3.5">${inputValue}</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">wait(empty)</div>`;
       ol.appendChild(newDiv);
+      // Scroll to the bottom of #innerSimulation
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
 
-      await delay(1000); // Wait 3 seconds before proceeding
+      await delay(1000); // Wait 1 second before proceeding
 
       await processInstance.wait("empty");
 
@@ -95,13 +134,17 @@ put.addEventListener("keyup", async function (event) {
       newDiv = document.createElement("div");
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                          <div class="col-span-1 sm:px-3.5">${processInstance.clock-2}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock - 2}</div>
                           <div class="col-span-1 sm:px-3.5">${inputValue}</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">wait(mutex)</div>`;
       ol.appendChild(newDiv);
+      // Scroll to the bottom of #innerSimulation
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
 
-      await delay(1000); // Wait 3 seconds before proceeding
+      await delay(1000); // Wait 1 second before proceeding
 
       await processInstance.wait("mutex");
 
@@ -118,14 +161,18 @@ put.addEventListener("keyup", async function (event) {
         newDiv = document.createElement("div");
         newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
         newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processString}</div>
-                            <div class="col-span-1 sm:px-3.5">${processInstance.clock-3}</div>
+                            <div class="col-span-1 sm:px-3.5">${processInstance.clock - 3}</div>
                             <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
                             <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                             <div class="col-span-1 sm:px-3.5 text-red-600">critical section</div>`;
         ol.appendChild(newDiv);
+        // Scroll to the bottom of #innerSimulation
+        setTimeout(() => {
+          innerSimulation.scrollTop = innerSimulation.scrollHeight;
+        }, 100);
       }
 
-      await delay(1000); // Wait 3 seconds before proceeding
+      await delay(1000); // Wait 1 second before proceeding
 
       // Signal(mutex)
       processInstance.signal("mutex");
@@ -133,13 +180,17 @@ put.addEventListener("keyup", async function (event) {
       newDiv = document.createElement("div");
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                          <div class="col-span-1 sm:px-3.5">${processInstance.clock-4}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock - 4}</div>
                           <div class="col-span-1 sm:px-3.5">${inputValue}</div>
                           <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
       ol.appendChild(newDiv);
+      // Scroll to the bottom of #innerSimulation
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
 
-      await delay(1000); // Wait 3 seconds before proceeding
+      await delay(1000); // Wait 1 second before proceeding
 
       // Signal(full)
       processInstance.signal("full");
@@ -149,13 +200,13 @@ put.addEventListener("keyup", async function (event) {
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                           <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
                           <div class="col-span-1 sm:px-3.5">${inputValue}</div>
-                          <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
+                          <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(full)</div>`;
       ol.appendChild(newDiv);
-
       // Scroll to the bottom of #innerSimulation
-      const innerSimulation = document.getElementById("innerSimulation");
-      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
 
       // Clear input field after processing
       put.value = "";
@@ -165,108 +216,148 @@ put.addEventListener("keyup", async function (event) {
 
 const get = document.getElementById("get");
 
-get.addEventListener("keyup", async function (event) {
-  if (event.key === "Enter") {
-    const inputValue = get.value.trim(); // Trim input value
-    if (inputValue !== "") {
-      // Wait(full)
-      const ol = document.getElementById("iteration");
+get.addEventListener("click", async function () {
+  if (processInstance) {
+    const ol = document.getElementById("iteration");
+
+    // Check if full is 0
+    if (processInstance.full === 0) {
+      // Display wait(full) state
       let newDiv = document.createElement("div");
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                          <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                          <div class="col-span-1 sm:px-3.5">${inputValue}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock - 1}</div>
+                          <div class="col-span-1 sm:px-3.5"></div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
-                          <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>;`
-      ol.appendChild(newDiv);
-
-      await delay(1000); // Wait 3 seconds before proceeding
-
-      await processInstance.wait("full");
-
-      // Wait(mutex)
-      newDiv = document.createElement("div");
-      newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
-      newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                          <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                          <div class="col-span-1 sm:px-3.5">${inputValue}</div>
-                          <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
-                          <div class="col-span-1 sm:px-3.5 text-red-600">wait(mutex)</div>`;
-      ol.appendChild(newDiv);
-
-      await delay(1000); // Wait 3 seconds before proceeding
-
-      await processInstance.wait("mutex");
-
-      // Critical section
-      const foundIndex = processInstance.process.indexOf(inputValue);
-      if (foundIndex !== -1) {
-        processInstance.process[foundIndex] = "";
-        processInstance.value = inputValue;
-        // Generate and append the div element with updated values
-        const processString = processInstance.process
-          .filter((val) => val !== "")
-          .join(", ");
-        newDiv = document.createElement("div");
-        newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
-        newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processString}</div>
-                        <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                        <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
-                        <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
-                        <div class="col-span-1 sm:px-3.5 text-red-600">critical section</div>`;
-        ol.appendChild(newDiv);
-      }
-
-      await delay(1000); // Wait 3 seconds before proceeding
-
-      // Signal(mutex)
-      processInstance.signal("mutex");
-
-      newDiv = document.createElement("div");
-      newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
-      newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                      <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                      <div class="col-span-1 sm:px-3.5">${inputValue}</div>
-                      <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
-                      <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
-      ol.appendChild(newDiv);
-
-      await delay(1000); // Wait 3 seconds before proceeding
-
-      // Signal(empty)
-      processInstance.signal("empty");
-
-      newDiv = document.createElement("div");
-      newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
-      newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
-                      <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                      <div class="col-span-1 sm:px-3.5">${inputValue}</div>
-                      <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
-                      <div class="col-span-1 sm:px-3.5 text-green-600">signal(empty)</div>`;
+                          <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>`;
       ol.appendChild(newDiv);
 
       // Scroll to the bottom of #innerSimulation
-      const innerSimulation = document.getElementById("innerSimulation");
-      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
 
-      // Clear input field after processing
-      get.value = "";
+      // Display initial state
+      newDiv = document.createElement("div");
+      newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+      newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
+                          <div class="col-span-1 sm:px-3.5 text-green-600">${processInstance.state}</div>
+                          <div class="col-span-1 sm:px-3.5 text-green-600">initial state</div>`;
+      ol.appendChild(newDiv);
+
+      // Scroll to the bottom of #innerSimulation
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
+
+      alert("Buffer is empty!");
+
+      return;
     }
+
+    // Wait(full)
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+    newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                        <div class="col-span-1 sm:px-3.5">${processInstance.clock - 1}</div>
+                        <div class="col-span-1 sm:px-3.5"></div>
+                        <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
+                        <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>`;
+    ol.appendChild(newDiv);
+
+    // Scroll to the bottom of #innerSimulation
+    setTimeout(() => {
+      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+    }, 100);
+
+    await delay(1000); // Wait 1 second before proceeding
+
+    await processInstance.wait("full");
+
+    // Wait(mutex)
+    newDiv = document.createElement("div");
+    newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+    newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                        <div class="col-span-1 sm:px-3.5">${processInstance.clock - 2}</div>
+                        <div class="col-span-1 sm:px-3.5"></div>
+                        <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
+                        <div class="col-span-1 sm:px-3.5 text-red-600">wait(mutex)</div>`;
+    ol.appendChild(newDiv);
+
+    // Scroll to the bottom of #innerSimulation
+    setTimeout(() => {
+      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+    }, 100);
+
+    await delay(1000); // Wait 1 second before proceeding
+
+    await processInstance.wait("mutex");
+
+    // Critical section
+    const filledIndex = processInstance.process.findIndex((val) => val !== "");
+    let removedValue = "";
+    if (filledIndex !== -1) {
+      removedValue = processInstance.process[filledIndex];
+      processInstance.process[filledIndex] = "";
+      processInstance.value = removedValue;
+
+      // Generate and append the div element with updated values
+      const processString = processInstance.process
+        .filter((val) => val !== "")
+        .join(", ");
+      newDiv = document.createElement("div");
+      newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+      newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processString}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.clock - 3}</div>
+                          <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
+                          <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
+                          <div class="col-span-1 sm:px-3.5 text-red-600">critical section</div>`;
+      ol.appendChild(newDiv);
+
+      // Scroll to the bottom of #innerSimulation
+      setTimeout(() => {
+        innerSimulation.scrollTop = innerSimulation.scrollHeight;
+      }, 100);
+    }
+
+    await delay(1000); // Wait 1 second before proceeding
+
+    // Signal(mutex)
+    processInstance.signal("mutex");
+
+    newDiv = document.createElement("div");
+    newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+    newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                        <div class="col-span-1 sm:px-3.5">${processInstance.clock - 4}</div>
+                        <div class="col-span-1 sm:px-3.5">${removedValue}</div>
+                        <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
+                        <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
+    ol.appendChild(newDiv);
+
+    // Scroll to the bottom of #innerSimulation
+    setTimeout(() => {
+      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+    }, 100);
+
+    await delay(1000); // Wait 1 second before proceeding
+
+    // Signal(empty)
+    processInstance.signal("empty");
+
+    newDiv = document.createElement("div");
+    newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+    newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                        <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
+                        <div class="col-span-1 sm:px-3.5">${removedValue}</div>
+                        <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
+                        <div class="col-span-1 sm:px-3.5 text-green-600">signal(empty)</div>`;
+    ol.appendChild(newDiv);
+
+    // Scroll to the bottom of #innerSimulation
+    setTimeout(() => {
+      innerSimulation.scrollTop = innerSimulation.scrollHeight;
+    }, 100);
   }
-});
-
-// Reset button event listener
-const resetButton = document.getElementById("reset");
-
-resetButton.addEventListener("click", function () {
-  // Reset radio button to default (radio-1)
-  const defaultRadio = document.getElementById("radio-1");
-  defaultRadio.checked = true;
-
-  // Clear the content of ol with id "iteration"
-  const ol = document.getElementById("iteration");
-  ol.innerHTML = "";
-
-  // Reset processInstance to null or initial state as needed
-  processInstance = null;
 });
