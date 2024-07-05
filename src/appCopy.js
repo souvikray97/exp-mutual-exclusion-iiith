@@ -40,7 +40,7 @@ document.getElementById("start").addEventListener("click", async function () {
   // Select the first radio button (buffer size 0) by default
   const bufferSize = parseInt(
     document.querySelector('input[name="radio"]:checked').value,
-    10
+    10,
   );
   console.log("Buffer size selected:", bufferSize);
 
@@ -88,12 +88,16 @@ put.addEventListener("keyup", async function (event) {
                             <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                             <div class="col-span-1 sm:px-3.5 text-red-600">wait(empty)</div>`;
         ol.appendChild(newDiv);
-        
+        // Clear input field after processing
+        put.value = "";
+
         // Scroll to the bottom of #innerSimulation
         setTimeout(() => {
           innerSimulation.scrollTop = innerSimulation.scrollHeight;
         }, 100);
-        
+        await delay(1000); // Wait 1 second before proceeding
+        alert("Buffer is full!");
+
         // Display initial state
         newDiv = document.createElement("div");
         newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
@@ -108,7 +112,7 @@ put.addEventListener("keyup", async function (event) {
         setTimeout(() => {
           innerSimulation.scrollTop = innerSimulation.scrollHeight;
         }, 100);
-        
+        await delay(1000); // Wait 1 second before proceeding
         return;
       }
 
@@ -121,6 +125,9 @@ put.addEventListener("keyup", async function (event) {
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">wait(empty)</div>`;
       ol.appendChild(newDiv);
+      // Clear input field after processing
+      put.value = "";
+
       // Scroll to the bottom of #innerSimulation
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -139,6 +146,7 @@ put.addEventListener("keyup", async function (event) {
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">wait(mutex)</div>`;
       ol.appendChild(newDiv);
+
       // Scroll to the bottom of #innerSimulation
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -166,6 +174,7 @@ put.addEventListener("keyup", async function (event) {
                             <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                             <div class="col-span-1 sm:px-3.5 text-red-600">critical section</div>`;
         ol.appendChild(newDiv);
+
         // Scroll to the bottom of #innerSimulation
         setTimeout(() => {
           innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -185,6 +194,7 @@ put.addEventListener("keyup", async function (event) {
                           <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
       ol.appendChild(newDiv);
+
       // Scroll to the bottom of #innerSimulation
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -200,24 +210,22 @@ put.addEventListener("keyup", async function (event) {
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                           <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
                           <div class="col-span-1 sm:px-3.5">${inputValue}</div>
-                          <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
+                          <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(full)</div>`;
       ol.appendChild(newDiv);
+
       // Scroll to the bottom of #innerSimulation
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
       }, 100);
-
-      // Clear input field after processing
-      put.value = "";
     }
   }
 });
 
 const get = document.getElementById("get");
 
-get.addEventListener("click", async function () {
-  if (processInstance) {
+get.addEventListener("keyup", async function (event) {
+  if (event.key === "Enter") {
     const ol = document.getElementById("iteration");
 
     // Check if full is 0
@@ -231,11 +239,14 @@ get.addEventListener("click", async function () {
                           <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                           <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>`;
       ol.appendChild(newDiv);
-
+      // Clear input field after processing
+      get.value = "";
       // Scroll to the bottom of #innerSimulation
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
       }, 100);
+      await delay(1000); // Wait 1 second before proceeding
+      alert("Buffer is empty!");
 
       // Display initial state
       newDiv = document.createElement("div");
@@ -251,8 +262,7 @@ get.addEventListener("click", async function () {
       setTimeout(() => {
         innerSimulation.scrollTop = innerSimulation.scrollHeight;
       }, 100);
-
-      alert("Buffer is empty!");
+      await delay(1000); // Wait 1 second before proceeding
 
       return;
     }
@@ -266,7 +276,8 @@ get.addEventListener("click", async function () {
                         <div class="col-span-1 sm:px-3.5 text-red-600">busy</div>
                         <div class="col-span-1 sm:px-3.5 text-red-600">wait(full)</div>`;
     ol.appendChild(newDiv);
-
+// Clear input field after processing
+get.value = "";
     // Scroll to the bottom of #innerSimulation
     setTimeout(() => {
       innerSimulation.scrollTop = innerSimulation.scrollHeight;
@@ -351,7 +362,7 @@ get.addEventListener("click", async function () {
     newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                         <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
                         <div class="col-span-1 sm:px-3.5">${removedValue}</div>
-                        <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
+                        <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
                         <div class="col-span-1 sm:px-3.5 text-green-600">signal(empty)</div>`;
     ol.appendChild(newDiv);
 
@@ -360,4 +371,16 @@ get.addEventListener("click", async function () {
       innerSimulation.scrollTop = innerSimulation.scrollHeight;
     }, 100);
   }
+});
+resetButton.addEventListener("click", function () {
+  // Reset radio button to default (radio-1)
+  const defaultRadio = document.getElementById("radio-1");
+  defaultRadio.checked = true;
+
+  // Clear the content of ol with id "iteration"
+  const ol = document.getElementById("iteration");
+  ol.innerHTML = "";
+
+  // Reset processInstance to null or initial state as needed
+  processInstance = null;
 });
