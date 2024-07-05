@@ -34,16 +34,22 @@ function delay(ms) {
 
 // Create an instance of the Process class
 let processInstance;
-let innerSimulation = document.getElementById("innerSimulation");
+const innerSimulation = document.getElementById("innerSimulation");
+let bufferSize= parseInt(
+  document.querySelector('input[name="radio"]:checked').value,
+  10,
+);
+console.log("Buffer size selected:", bufferSize);; 
 
 document.getElementById("start").addEventListener("click", async function () {
-  // Select the first radio button (buffer size 0) by default
-  const bufferSize = parseInt(
-    document.querySelector('input[name="radio"]:checked').value,
-    10,
-  );
-  console.log("Buffer size selected:", bufferSize);
+  
 
+// Select the first radio button (buffer size 0) by default
+bufferSize = parseInt(
+  document.querySelector('input[name="radio"]:checked').value,
+  10,
+);
+console.log("Buffer size selected:", bufferSize);
   if (bufferSize == 0) {
     alert("Select Buffer Size before Starting.")
     return;
@@ -73,6 +79,12 @@ document.getElementById("start").addEventListener("click", async function () {
 const put = document.getElementById("put");
 
 put.addEventListener("keyup", async function (event) {
+  if (bufferSize == 0) {
+    alert("Select Buffer Size and Click on Start before Producing.")
+    // Clear input field after processing
+    put.value = "";
+    return;
+  }
   if (event.key === "Enter") {
     const inputValue = put.value.trim(); // Trim input value
     if (inputValue !== "") {
@@ -226,6 +238,12 @@ put.addEventListener("keyup", async function (event) {
 const get = document.getElementById("get");
 
 get.addEventListener("keyup", async function (event) {
+  if (bufferSize == 0) {
+    alert("Select Buffer Size, Click on Start and Produce before consuming.")
+// Clear input field after processing
+get.value = "";
+    return;
+  }
   if (event.key === "Enter") {
     const ol = document.getElementById("iteration");
 
