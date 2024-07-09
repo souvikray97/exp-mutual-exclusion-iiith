@@ -403,6 +403,12 @@ get.addEventListener("keyup", async function (event) {
   }
 });
 
+// Next button event listener
+const nextButton = document.getElementById("next");
+nextButton.addEventListener("click", function () { 
+
+});
+
 // Reset button event listener
 const resetButton = document.getElementById("reset");
 resetButton.addEventListener("click", function () {
