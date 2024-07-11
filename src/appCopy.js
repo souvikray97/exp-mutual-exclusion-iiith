@@ -203,7 +203,7 @@ put.addEventListener("keyup", async function (event) {
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                           <div class="col-span-1 sm:px-3.5">${processInstance.clock - 4}</div>
-                          <div class="col-span-1 sm:px-3.5">${inputValue}</div>
+                          <div class="col-span-1 sm:px-3.5"></div>
                           <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
       ol.appendChild(newDiv);
@@ -222,7 +222,7 @@ put.addEventListener("keyup", async function (event) {
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                           <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                          <div class="col-span-1 sm:px-3.5">${inputValue}</div>
+                          <div class="col-span-1 sm:px-3.5"></div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
                           <div class="col-span-1 sm:px-3.5 text-green-600">signal(full)</div>`;
       ol.appendChild(newDiv);
@@ -368,7 +368,7 @@ get.addEventListener("keyup", async function (event) {
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                         <div class="col-span-1 sm:px-3.5">${processInstance.clock - 4}</div>
-                        <div class="col-span-1 sm:px-3.5">${removedValue}</div>
+                        <div class="col-span-1 sm:px-3.5"></div>
                         <div class="col-span-1 sm:px-3.5 text-yellow-600">ok</div>
                         <div class="col-span-1 sm:px-3.5 text-green-600">signal(mutex)</div>`;
       ol.appendChild(newDiv);
@@ -387,7 +387,7 @@ get.addEventListener("keyup", async function (event) {
       newDiv.classList.add("grid", "grid-cols-5", "border-b", "text-center");
       newDiv.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
                         <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
-                        <div class="col-span-1 sm:px-3.5">${removedValue}</div>
+                        <div class="col-span-1 sm:px-3.5"></div>
                         <div class="col-span-1 sm:px-3.5 text-green-600">ready</div>
                         <div class="col-span-1 sm:px-3.5 text-green-600">signal(empty)</div>`;
       ol.appendChild(newDiv);
