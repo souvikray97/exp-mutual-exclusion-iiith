@@ -134,14 +134,10 @@ put.addEventListener("keyup", async function (event) {
           value: inputValue,
           state: "busy",
           operation: "wait(empty)",
+          alert: true // Add alert flag
         });
         put.value = "";
         await delay(1000); // Wait 1 second before proceeding
-        alertRed.classList.remove("hidden");
-        alertRedText.innerHTML = "Buffer is full!";
-        put.value = "";
-        await delay(2000);
-        alertRed.classList.add("hidden");
 
         // Display initial state
         steps.push({
@@ -236,7 +232,7 @@ get.addEventListener("keyup", async function (event) {
       alertRed.classList.remove("hidden");
       alertRedText.innerHTML =
         "Select Buffer Size, Click on Start and Produce before consuming.";
-      put.value = "";
+      get.value = "";
       await delay(2000);
       alertRed.classList.add("hidden");
       return;
@@ -244,7 +240,7 @@ get.addEventListener("keyup", async function (event) {
     if (processInstance.mutex === 0) {
       alertRed.classList.remove("hidden");
       alertRedText.innerHTML = "Another process is running. Please wait.";
-      put.value = "";
+      get.value = "";
       await delay(2000);
       alertRed.classList.add("hidden");
       return;
@@ -265,14 +261,10 @@ get.addEventListener("keyup", async function (event) {
           value: inputValue,
           state: "busy",
           operation: "wait(full)",
+          alert: true // Add alert flag
         });
         get.value = "";
         await delay(1000); // Wait 1 second before proceeding
-        alertRed.classList.remove("hidden");
-        alertRedText.innerHTML = "Buffer is empty!";
-        put.value = "";
-        await delay(2000);
-        alertRed.classList.add("hidden");
 
         // Display initial state
         steps.push({
@@ -372,9 +364,38 @@ document.getElementById("next").addEventListener("click", async function () {
                       <div class="col-span-1 sm:px-3.5 ${stateClass}">${step.state}</div>
                       <div class="col-span-1 sm:px-3.5 ${operationClass}">${step.operation}</div>`;
     ol.appendChild(div);
+    // Execute alert if flag is present and operation is "wait(empty)"
+    if (step.alert && step.operation === "wait(empty)") {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML = "Buffer is full!";
+      await delay(2000);
+      alertRed.classList.add("hidden");
+    }
+    // Execute alert if flag is present and operation is "wait(empty)"
+    if (step.alert && step.operation === "wait(full)") {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML = "Buffer is empty!";
+      await delay(2000);
+      alertRed.classList.add("hidden");
+    }
     
     currentStep++;
   } else {
     console.log("No more steps to execute.");
   }
+});
+
+// Reset button event listener
+const resetButton = document.getElementById("reset");
+resetButton.addEventListener("click", function () {
+  // Reset radio button to default (radio-1)
+  const defaultRadio = document.getElementById("radio-1");
+  defaultRadio.checked = true;
+
+  // Clear the content of ol with id "iteration"
+  const ol = document.getElementById("iteration");
+  ol.innerHTML = "";
+
+  // Reset processInstance to null or initial state as needed
+  processInstance = null;
 });
