@@ -1,186 +1,380 @@
 // Define the Process class with the required constructor
 class Process {
-  constructor(bufferSize, clock = 3, value = "", state = "ready") {
+  constructor(bufferSize, clock = 5, value = "", state = "ready") {
     this.process = new Array(bufferSize).fill("");
     this.clock = clock;
     this.value = value;
     this.state = state;
+    this.empty = bufferSize;
+    this.full = 0;
+    this.mutex = 1;
+  }
+
+  wait(variable) {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (this[variable] > 0) {
+          this[variable]--;
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100);
+    });
+  }
+
+  signal(variable) {
+    this[variable]++;
   }
 }
 
-// Create an instance of the Process class
-let processInstance;
+// Function to delay execution with a specified timeout
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-document.getElementById("start").addEventListener("click", function () {
+const innerSimulation = document.getElementById("innerSimulation");
+let bufferSize;
+let processInstance;
+let currentStep = 0;
+const steps = []; // Array to store steps for "next" button iteration
+
+const alertRed = document.getElementById("alert");
+const alertRedText = document.getElementById("alert-text");
+
+document.getElementById("start").addEventListener("click", async function () {
   // Select the first radio button (buffer size 0) by default
-  const bufferSize = parseInt(
+  bufferSize = parseInt(
     document.querySelector('input[name="radio"]:checked').value,
     10,
   );
   console.log("Buffer size selected:", bufferSize);
-
-  if (bufferSize == 0) {
+  if (bufferSize === 0) {
+    alertRed.classList.remove("hidden");
+    alertRedText.innerHTML = "Select Buffer Size before Starting.";
+    await delay(2000);
+    alertRed.classList.add("hidden");
     return;
   }
   processInstance = new Process(bufferSize);
 
   const ol = document.getElementById("iteration");
 
-  // Clear existing items in the list
-  ol.innerHTML = "";
-
   // Generate and append the div element with initial values using the Process instance
   const div = document.createElement("div");
-  div.classList.add("flex", "border-b", "py-2", "text-center");
-  div.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processInstance.process}</div>
-                   <div class="basis-1/4 px-2">${processInstance.clock}</div>
-                   <div class="basis-1/4 px-2">${processInstance.value}</div>
-                   <div class="basis-1/4 pr-3 pl-5 text-green-600">${processInstance.state}</div>`;
+  div.classList.add("grid", "grid-cols-5", "border-b", "text-center");
+  div.innerHTML = `<div class="col-span-1 sm:px-3.5">${processInstance.process}</div>
+                    <div class="col-span-1 sm:px-3.5">${processInstance.clock}</div>
+                    <div class="col-span-1 sm:px-3.5">${processInstance.value}</div>
+                    <div class="col-span-1 sm:px-3.5 text-green-600">${processInstance.state}</div>
+                    <div class="col-span-1 sm:px-3.5 text-green-600">Start</div>`;
   ol.appendChild(div);
+
   // Scroll to the bottom of #innerSimulation
-  const innerSimulation = document.getElementById("innerSimulation");
-  innerSimulation.scrollTop = innerSimulation.scrollHeight;
+  setTimeout(() => {
+    innerSimulation.scrollTop = innerSimulation.scrollHeight;
+  }, 100);
+
+  await delay(1000); // Wait 1 second before proceeding
+
+  currentStep = 0;
+  steps.length = 0;
 });
+
+// Function to get the appropriate class for a given state or operation
+function getStateClass(state) {
+  const greenStates = ["ready", "signal(empty)", "signal(mutex)", "initial state", "signal(full)"];
+  const redStates = ["busy", "wait(empty)", "wait(mutex)", "critical section", "wait(full)"];
+  const yellowStates = ["ok"];
+
+  if (greenStates.includes(state)) {
+    return "text-green-600";
+  } else if (redStates.includes(state)) {
+    return "text-red-600";
+  } else if (yellowStates.includes(state)) {
+    return "text-yellow-600";
+  } else {
+    return "";
+  }
+}
 
 const put = document.getElementById("put");
 
-put.addEventListener("keyup", function (event) {
+put.addEventListener("keyup", async function (event) {
   if (event.key === "Enter") {
-    const inputValue = put.value.trim(); // Trim input value
-    if (inputValue !== "") {
-      // Update the value property of the Process instance
-      processInstance.value = inputValue;
+    if (bufferSize === 0) {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML =
+        "Select Buffer Size and Click on Start before Producing.";
+      put.value = "";
+      await delay(2000);
+      alertRed.classList.add("hidden");
 
-      // Find the first empty spot in the process array to add the new value
+      return;
+    }
+    if (processInstance.mutex === 0) {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML = "Another process is running. Please wait.";
+      put.value = "";
+      await delay(2000);
+      alertRed.classList.add("hidden");
+
+      return;
+    }
+    const inputValue = put.value.trim(); // Trim input value
+
+    if (inputValue !== "") {
+      const ol = document.getElementById("iteration");
+
+      // Check if empty is 0
+      if (processInstance.empty === 0) {
+        // Display wait(empty) state
+        steps.push({
+          process: processInstance.process.slice(),
+          clock: processInstance.clock - 1,
+          value: inputValue,
+          state: "busy",
+          operation: "wait(empty)",
+        });
+        put.value = "";
+        await delay(1000); // Wait 1 second before proceeding
+        alertRed.classList.remove("hidden");
+        alertRedText.innerHTML = "Buffer is full!";
+        put.value = "";
+        await delay(2000);
+        alertRed.classList.add("hidden");
+
+        // Display initial state
+        steps.push({
+          process: processInstance.process.slice(),
+          clock: processInstance.clock,
+          value: "",
+          state: "ready",
+          operation: "initial state",
+        });
+
+        await delay(1000); // Wait 1 second before proceeding
+        return;
+      }
+      await processInstance.wait("mutex"); // wait mutex
+
+      // Wait(empty)
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 1,
+        value: inputValue,
+        state: "busy",
+        operation: "wait(empty)",
+      });
+      put.value = "";
+      await delay(1000); // Wait 1 second before proceeding
+
+      await processInstance.wait("empty");
+
+      // Wait(mutex)
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 2,
+        value: inputValue,
+        state: "busy",
+        operation: "wait(mutex)",
+      });
+
+      await delay(1000); // Wait 1 second before proceeding
+
+      // Critical section
       const emptyIndex = processInstance.process.indexOf("");
       if (emptyIndex !== -1) {
-        const ol = document.getElementById("iteration");
-
-        for (let i = 1; i <= 3; i++) {
-          const newDiv = document.createElement("div");
-          newDiv.classList.add("flex", "border-b", "py-2", "text-center");
-
-          newDiv.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processInstance.process}</div>
-                                            <div class="basis-1/4 px-2">${processInstance.clock - i}</div>
-                                            <div class="basis-1/4 px-2">${inputValue}</div>
-                                            <div class="basis-1/4 pr-3 pl-5 text-red-600">busy</div>`;
-          // Append each new div with a delay of 1 second
-          setTimeout(() => {
-            ol.appendChild(newDiv);
-            // Scroll to the bottom of #innerSimulation
-            const innerSimulation = document.getElementById("innerSimulation");
-            innerSimulation.scrollTop = innerSimulation.scrollHeight;
-          }, i * 1000);
-        }
-
         processInstance.process[emptyIndex] = inputValue;
+        processInstance.value = inputValue;
 
         // Generate and append the div element with updated values
-        const div = document.createElement("div");
-        div.classList.add("flex", "border-b", "py-2", "text-center");
-
         const processString = processInstance.process
           .filter((val) => val !== "")
           .join(", ");
+        steps.push({
+          process: processString,
+          clock: processInstance.clock - 3,
+          value: inputValue,
+          state: "busy",
+          operation: "critical section",
+        });
+      }
 
-        div.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processString}</div>
-                       <div class="basis-1/4 px-2">${processInstance.clock}</div>
-                       <div class="basis-1/4 px-2">${processInstance.value}</div>
-                       <div class="basis-1/4 pr-3 pl-5 text-green-600">${processInstance.state}</div>`;
+      await delay(1000); // Wait 1 second before proceeding
 
-        // Append the new div to the existing list (ol)
-        // Add a 1-second delay before appending the main div with updated values
-        setTimeout(() => {
-          ol.appendChild(div);
-          // Scroll to the bottom of #innerSimulation
-          const innerSimulation = document.getElementById("innerSimulation");
-          innerSimulation.scrollTop = innerSimulation.scrollHeight;
-        }, 4000);
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 4,
+        value: "",
+        state: "ok",
+        operation: "signal(mutex)",
+      });
 
-        // Clear input field after processing
-        put.value = "";
-      } else console.log("Buffer is full. Cannot add more values.");
+      await delay(1000); // Wait 1 second before proceeding
+
+      // Signal(full)
+      processInstance.signal("full");
+
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock,
+        value: "",
+        state: "ready",
+        operation: "signal(full)",
+      });
+
+      processInstance.signal("mutex");
     }
   }
 });
-
-// Event listener for the "START" button (already defined)
 
 const get = document.getElementById("get");
 
-get.addEventListener("keyup", function (event) {
+get.addEventListener("keyup", async function (event) {
   if (event.key === "Enter") {
+    if (bufferSize === 0) {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML =
+        "Select Buffer Size, Click on Start and Produce before consuming.";
+      put.value = "";
+      await delay(2000);
+      alertRed.classList.add("hidden");
+      return;
+    }
+    if (processInstance.mutex === 0) {
+      alertRed.classList.remove("hidden");
+      alertRedText.innerHTML = "Another process is running. Please wait.";
+      put.value = "";
+      await delay(2000);
+      alertRed.classList.add("hidden");
+      return;
+    }
+
     const inputValue = get.value.trim(); // Trim input value
     if (inputValue !== "") {
-      // Update the value property of the Process instance
-      processInstance.value = inputValue;
+      const ol = document.getElementById("iteration");
 
-      // Find the index of the value in the process array to remove
-      const foundIndex = processInstance.process.indexOf(inputValue);
-      if (foundIndex !== -1) {
-        const ol = document.getElementById("iteration");
+      await processInstance.wait("mutex"); //wait mutex
 
-        for (let i = 1; i <= 3; i++) {
-          const newDiv = document.createElement("div");
-          newDiv.classList.add("flex", "border-b", "py-2", "text-center");
-
-          newDiv.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processInstance.process}</div>
-                              <div class="basis-1/4 px-2">${processInstance.clock - i}</div>
-                              <div class="basis-1/4 px-2">${inputValue}</div>
-                              <div class="basis-1/4 pr-3 pl-5 text-red-600">busy</div>`;
-
-          // Append each new div with a delay of 1 second
-          setTimeout(() => {
-            ol.appendChild(newDiv);
-            // Scroll to the bottom of #innerSimulation
-            const innerSimulation = document.getElementById("innerSimulation");
-            innerSimulation.scrollTop = innerSimulation.scrollHeight;
-          }, i * 1000);
-        }
-
-        processInstance.process[foundIndex] = "";
-        // Generate and append the div element with updated values
-        const div = document.createElement("div");
-        div.classList.add("flex", "border-b", "py-2", "text-center");
-
-        const processString = processInstance.process
-          .filter((val) => val !== "")
-          .join(", ");
-
-        div.innerHTML = `<div class="basis-1/4 pl-3 pr-5">${processString}</div>
-                           <div class="basis-1/4 px-2">${processInstance.clock}</div>
-                           <div class="basis-1/4 px-2">${processInstance.value}</div>
-                           <div class="basis-1/4 pr-3 pl-5 text-green-600">${processInstance.state}</div>`;
-        // Remove the value from the process array after a delay
-        setTimeout(() => {
-          ol.appendChild(div);
-          // Scroll to the bottom of #innerSimulation
-          const innerSimulation = document.getElementById("innerSimulation");
-          innerSimulation.scrollTop = innerSimulation.scrollHeight;
-        }, 4000);
-
-        // Clear input field after processing
+      // Check if full is 0
+      if (processInstance.full === 0) {
+        // Display wait(full) state
+        steps.push({
+          process: processInstance.process.slice(),
+          clock: processInstance.clock - 1,
+          value: inputValue,
+          state: "busy",
+          operation: "wait(full)",
+        });
         get.value = "";
-      } else {
-        console.log("Value not found in process array.");
+        await delay(1000); // Wait 1 second before proceeding
+        alertRed.classList.remove("hidden");
+        alertRedText.innerHTML = "Buffer is empty!";
+        put.value = "";
+        await delay(2000);
+        alertRed.classList.add("hidden");
+
+        // Display initial state
+        steps.push({
+          process: processInstance.process.slice(),
+          clock: processInstance.clock,
+          value: "",
+          state: "ready",
+          operation: "initial state",
+        });
+
+        await delay(1000); // Wait 1 second before proceeding
+        return;
       }
+      // Wait(full)
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 1,
+        value: inputValue,
+        state: "busy",
+        operation: "wait(full)",
+      });
+
+      await delay(1000); // Wait 1 second before proceeding
+
+      await processInstance.wait("full");
+
+      // Wait(mutex)
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 2,
+        value: inputValue,
+        state: "busy",
+        operation: "wait(mutex)",
+      });
+
+      await delay(1000); // Wait 1 second before proceeding
+
+      // Critical section
+      const value = processInstance.process.shift();
+      processInstance.process.push("");
+      processInstance.value = value;
+
+      // Generate and append the div element with updated values
+      const processString = processInstance.process
+        .filter((val) => val !== "")
+        .join(", ");
+      steps.push({
+        process: processString,
+        clock: processInstance.clock - 3,
+        value,
+        state: "busy",
+        operation: "critical section",
+      });
+
+      await delay(1000); // Wait 1 second before proceeding
+
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock - 4,
+        value: "",
+        state: "ok",
+        operation: "signal(mutex)",
+      });
+
+      await delay(1000); // Wait 1 second before proceeding
+
+      // Signal(empty)
+      processInstance.signal("empty");
+
+      steps.push({
+        process: processInstance.process.slice(),
+        clock: processInstance.clock,
+        value: "",
+        state: "ready",
+        operation: "signal(empty)",
+      });
+
+      processInstance.signal("mutex");
     }
   }
 });
 
-// Reset button event listener
-const resetButton = document.getElementById("reset");
+// Event listener for the "next" button
+document.getElementById("next").addEventListener("click", async function () {
+  if (currentStep < steps.length) {
+    const step = steps[currentStep];
+    const ol = document.getElementById("iteration");
+    const div = document.createElement("div");
+    div.classList.add("grid", "grid-cols-5", "border-b", "text-center");
 
-resetButton.addEventListener("click", function () {
-  // Reset radio button to default (radio-1)
-  const defaultRadio = document.getElementById("radio-1");
-  defaultRadio.checked = true;
+    const stateClass = getStateClass(step.state);
+    const operationClass = getStateClass(step.operation);
 
-  // Clear the content of ol with id "iteration"
-  const ol = document.getElementById("iteration");
-  ol.innerHTML = "";
-
-  // Reset processInstance to null or initial state as needed
-  processInstance = null;
+    div.innerHTML = `<div class="col-span-1 sm:px-3.5">${step.process}</div>
+                      <div class="col-span-1 sm:px-3.5">${step.clock}</div>
+                      <div class="col-span-1 sm:px-3.5">${step.value}</div>
+                      <div class="col-span-1 sm:px-3.5 ${stateClass}">${step.state}</div>
+                      <div class="col-span-1 sm:px-3.5 ${operationClass}">${step.operation}</div>`;
+    ol.appendChild(div);
+    
+    currentStep++;
+  } else {
+    console.log("No more steps to execute.");
+  }
 });
-
