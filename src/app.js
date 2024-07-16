@@ -299,6 +299,7 @@ get.addEventListener("keyup", async function (event) {
         state: "busy",
         operation: "wait(mutex)",
       });
+      get.value = "";
 
       await delay(1000); // Wait 1 second before proceeding
 
